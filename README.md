@@ -1,2 +1,2 @@
-# dany-Sponsoring-triathlon.github.io
+# Dany-Sponsoring-Triathlon.github.io
 Site pour sponsoring de triathlon 
