@@ -237,7 +237,7 @@ document.getElementById("form").onsubmit=function(e){
  var co=document.getElementById("co").value,nm=document.getElementById("nm").value,em=document.getElementById("em").value,msg=document.getElementById("msg").value;
  var ids=Object.keys(sel),s=total();
  var lines=ids.map(function(i){var z=Z[i-1];return "- "+z.l+" ("+eur(z.p)+")"});
- var body=(ids.length?"Emplacements souhaités :\n"+lines.join("\n")+"\nTotal indicatif : "+eur(s)+"\n\n":"Aucun emplacement sélectionné.\n\n")+msg;
+ var body=(ids.length?"Emplacements souhaités :\n"+lines.join("\n")+"\nTotal indicatif : "+eur(s)+(document.getElementById("tenues").checked?" (avec tenues d’entraînement)":"")+"\n\n":"Aucun emplacement sélectionné.\n\n")+msg;
  var st=document.getElementById("status"),btn=document.getElementById("send");
  function fallback(){location.href="mailto:"+EMAIL+"?subject="+encodeURIComponent("Partenariat triathlon")+"&body="+encodeURIComponent("Bonjour Dany,\n\nJe suis "+nm+" de l’entreprise "+co+" ("+em+").\n\n"+body)}
  if(ACCESS_KEY.indexOf("COLLE")===0){fallback();return}
@@ -253,6 +253,8 @@ document.getElementById("form").onsubmit=function(e){
  .catch(function(){st.className="err";st.textContent="L’envoi a échoué. Écrivez-moi directement à "+EMAIL+"."})
  .then(function(){btn.disabled=false});
 };
+document.getElementById("supl").textContent=SUPPL;
+document.getElementById("tenues").onchange=draw;
 draw();
 </script>
 </body>
