@@ -128,7 +128,7 @@ Ensemble, faisons de chaque entraînement et de chaque compétition une nouvelle
 </div>
 <div>
 <ul class="list" id="list"></ul>
-<label class="opt"><input type="checkbox" id="tenues"> Ajouter les tenues d’entraînement (+<span id="supl"></span> € par emplacement)</label> 
+<label class="opt"><input type="checkbox" id="tenues"> Ajouter les tenues d’entraînement (+<span id="supl"></span> % par emplacement)</label> 
 <div class="total"><span id="count">0 emplacement</span><span id="sum">0 €</span></div>
 <a class="btn" href="#contact">Demander un partenariat</a>
 <p class="note">Tarifs indicatifs. Certains emplacements peuvent déjà être réservés. Aucun paiement en ligne.</p>
@@ -199,8 +199,8 @@ var Z=[
 {id:12,l:"Milieu du ventre",p:250,pos:{f:[146,269]}},
 {id:13,l:"Bas du ventre",p:150,pos:{f:[146,343]}}
 ];
-var SUPPL=20;
-function total(){var t=0,n=0;for(var i in sel){t+=Z[i-1].p;n++}if(document.getElementById("tenues").checked)t+=n*SUPPL;return t}var sel={},view="f",NS="http://www.w3.org/2000/svg";
+var SUPPL=25;
+function total(){var t=0;for(var i in sel){t+=Z[i-1].p}if(document.getElementById("tenues").checked)t=Math.round(t*(1+SUPPL/100));return t}
 function eur(n){return n+" €"}
 function draw(){
  ["f","b","l","r"].forEach(function(v){document.getElementById("v"+v).style.display=view===v?"":"none"});
