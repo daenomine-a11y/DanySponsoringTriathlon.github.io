@@ -85,6 +85,7 @@ footer{padding:30px 0 40px;border-top:1px solid var(--line);color:var(--muted);f
 .ok{color:var(--ok);font-weight:600}.err{color:var(--err);font-weight:600}
 .btn:disabled{opacity:.6;cursor:wait}
 footer{background:#1e2a6b;color:#b9b4e6;border-top:0}
+.opt{display:flex;gap:10px;align-items:center;margin:0 0 14px;font-weight:600;cursor:pointer}
 </style>
 </head>
 <body>
@@ -127,6 +128,7 @@ Ensemble, faisons de chaque entraînement et de chaque compétition une nouvelle
 </div>
 <div>
 <ul class="list" id="list"></ul>
+<label class="opt"><input type="checkbox" id="tenues"> Ajouter les tenues d’entraînement (+<span id="supl"></span> € par emplacement)</label> 
 <div class="total"><span id="count">0 emplacement</span><span id="sum">0 €</span></div>
 <a class="btn" href="#contact">Demander un partenariat</a>
 <p class="note">Tarifs indicatifs. Certains emplacements peuvent déjà être réservés. Aucun paiement en ligne.</p>
@@ -197,7 +199,8 @@ var Z=[
 {id:12,l:"Milieu du ventre",p:250,pos:{f:[146,269]}},
 {id:13,l:"Bas du ventre",p:150,pos:{f:[146,343]}}
 ];
-var sel={},view="f",NS="http://www.w3.org/2000/svg";
+var SUPPL=20;
+function total(){var t=0,n=0;for(var i in sel){t+=Z[i-1].p;n++}if(document.getElementById("tenues").checked)t+=n*SUPPL;return t}var sel={},view="f",NS="http://www.w3.org/2000/svg";
 function eur(n){return n+" €"}
 function draw(){
  ["f","b","l","r"].forEach(function(v){document.getElementById("v"+v).style.display=view===v?"":"none"});
@@ -220,7 +223,7 @@ function draw(){
   li.innerHTML="<span>"+z.id+". "+z.l+(z.t?" (réservé)":"")+"</span><b>"+eur(z.p)+"</b>";
   li.onclick=function(){tog(z)};ul.appendChild(li);
  });
- var ids=Object.keys(sel),s=0;ids.forEach(function(i){s+=Z[i-1].p});
+ var ids=Object.keys(sel),s=total();
  document.getElementById("count").textContent=ids.length+" emplacement"+(ids.length>1?"s":"");
  document.getElementById("sum").textContent=eur(s);
 }
@@ -232,7 +235,7 @@ var ACCESS_KEY="COLLE_ICI_TA_CLE_WEB3FORMS";
 document.getElementById("form").onsubmit=function(e){
  e.preventDefault();
  var co=document.getElementById("co").value,nm=document.getElementById("nm").value,em=document.getElementById("em").value,msg=document.getElementById("msg").value;
- var ids=Object.keys(sel),s=0;ids.forEach(function(i){s+=Z[i-1].p});
+ var ids=Object.keys(sel),s=total();
  var lines=ids.map(function(i){var z=Z[i-1];return "- "+z.l+" ("+eur(z.p)+")"});
  var body=(ids.length?"Emplacements souhaités :\n"+lines.join("\n")+"\nTotal indicatif : "+eur(s)+"\n\n":"Aucun emplacement sélectionné.\n\n")+msg;
  var st=document.getElementById("status"),btn=document.getElementById("send");
